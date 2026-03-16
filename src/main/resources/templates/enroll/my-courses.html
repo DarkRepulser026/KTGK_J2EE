@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>My Courses - EduEnroll</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com"/>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+    <link rel="stylesheet" th:href="@{/css/index.css}" href="../../static/css/index.css"/>
+    <style>
+        .my-shell { max-width: 1100px; margin: 42px auto; padding: 0 5vw 56px; }
+        .my-title { font-family: var(--serif); font-size: 2rem; margin-bottom: 16px; }
+        .my-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 20px; }
+        .my-card { background: #fff; border: 1px solid var(--cream); border-radius: 12px; padding: 18px; }
+        .my-cat { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.09em; color: var(--accent); margin-bottom: 7px; }
+        .my-name { font-family: var(--serif); font-size: 1.08rem; margin-bottom: 8px; }
+        .my-meta { color: var(--muted); font-size: 0.85rem; margin-bottom: 6px; }
+        .empty { background: #fff; border: 1px dashed var(--cream); border-radius: 10px; padding: 16px; color: var(--muted); }
+    </style>
+</head>
+<body>
+<nav>
+    <a href="/" class="nav-brand"><span></span>EduEnroll</a>
+    <div class="nav-links">
+        <a href="/courses">Courses</a>
+        <a href="/enroll/my-courses">My Courses</a>
+    </div>
+</nav>
+
+<main class="my-shell">
+    <h1 class="my-title">My Enrolled Courses</h1>
+
+    <div class="my-grid" th:if="${!#lists.isEmpty(enrollments)}">
+        <article class="my-card" th:each="enrollment : ${enrollments}">
+            <p class="my-cat" th:text="${enrollment.course.category != null ? enrollment.course.category.name : 'General'}">Category</p>
+            <h3 class="my-name" th:text="${enrollment.course.name}">Course Name</h3>
+            <p class="my-meta">
+                Lecturer: <span th:text="${enrollment.course.lecturer}">Dr. Name</span>
+            </p>
+            <p class="my-meta">
+                Credits: <strong th:text="${enrollment.course.credits}">3</strong>
+            </p>
+            <p class="my-meta">
+                Enrolled Date: <span th:text="${enrollment.enrollDate}">2025-01-01</span>
+            </p>
+        </article>
+    </div>
+
+    <p class="empty" th:if="${#lists.isEmpty(enrollments)}">You have not enrolled in any courses yet.</p>
+</main>
+</body>
+</html>

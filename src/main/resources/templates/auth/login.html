@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Sign In - EduEnroll</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com"/>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+    <link rel="stylesheet" th:href="@{/css/index.css}" href="../../static/css/index.css"/>
+    <style>
+        .auth-shell { max-width: 560px; margin: 48px auto; padding: 0 5vw 56px; }
+        .auth-card { background: #fff; border: 1px solid var(--cream); border-radius: 16px; padding: 28px; }
+        .auth-title { font-family: var(--serif); font-size: 2rem; margin-bottom: 8px; }
+        .auth-sub { color: var(--muted); margin-bottom: 18px; }
+        .field { margin-bottom: 14px; }
+        .field label { display: block; font-size: 0.8rem; letter-spacing: 0.08em; color: var(--muted); text-transform: uppercase; margin-bottom: 6px; }
+        .field input { width: 100%; border: 1px solid var(--cream); border-radius: 8px; padding: 10px 12px; font-family: var(--sans); }
+        .err { background: #fde6e6; border: 1px solid #f4c2c2; color: #7b2525; padding: 10px 12px; border-radius: 8px; margin-bottom: 14px; }
+        .oauth-wrap { margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--cream); }
+        .btn-google { display: inline-flex; align-items: center; justify-content: center; gap: 10px; width: 100%; padding: 11px 14px; border: 1px solid var(--cream); border-radius: 8px; text-decoration: none; color: var(--ink); background: #fff; font-weight: 500; }
+        .btn-google:hover { border-color: var(--muted); }
+        .muted-link { margin-top: 12px; font-size: 0.9rem; color: var(--muted); }
+        .muted-link a { color: var(--accent); text-decoration: none; }
+    </style>
+</head>
+<body>
+<nav>
+    <a href="/" class="nav-brand"><span></span>EduEnroll</a>
+    <div class="nav-links">
+        <a href="/courses">Courses</a>
+        <a href="/register">Register</a>
+    </div>
+</nav>
+
+<main class="auth-shell">
+    <div class="auth-card">
+        <h1 class="auth-title">Sign In</h1>
+        <p class="auth-sub">Use your student or admin account.</p>
+
+        <p class="err" th:if="${param.error}">Invalid username or password.</p>
+
+        <form th:action="@{/login}" method="post">
+            <div class="field">
+                <label for="username">Username</label>
+                <input id="username" type="text" name="username" required/>
+            </div>
+
+            <div class="field">
+                <label for="password">Password</label>
+                <input id="password" type="password" name="password" required/>
+            </div>
+
+            <button class="btn-primary" type="submit">Sign in</button>
+        </form>
+
+        <div class="oauth-wrap">
+            <a class="btn-google" href="/oauth2/authorization/google">
+                <span>G</span>
+                <span>Continue with Google</span>
+            </a>
+        </div>
+
+        <p class="muted-link">No account yet? <a href="/register">Create one</a></p>
+    </div>
+</main>
+</body>
+</html>

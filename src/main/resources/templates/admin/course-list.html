@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Admin Courses - EduEnroll</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com"/>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+    <link rel="stylesheet" th:href="@{/css/index.css}" href="../../static/css/index.css"/>
+    <style>
+        .admin-shell { max-width: 1100px; margin: 42px auto; padding: 0 5vw 56px; }
+        .admin-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; gap: 12px; }
+        .admin-title { font-family: var(--serif); font-size: 2rem; letter-spacing: -0.02em; }
+        .btn-small { padding: 10px 16px; font-size: 0.85rem; border-radius: 6px; text-decoration: none; }
+        .alert { margin: 12px 0; padding: 10px 12px; border-radius: 6px; font-size: 0.88rem; }
+        .alert.ok { background: #dff7e7; color: #24613a; }
+        .alert.err { background: #fde6e6; color: #7b2525; }
+        .table-wrap { background: #fff; border: 1px solid var(--cream); border-radius: 14px; overflow-x: auto; }
+        table { width: 100%; border-collapse: collapse; min-width: 760px; }
+        th, td { text-align: left; padding: 14px; border-bottom: 1px solid var(--cream); font-size: 0.9rem; }
+        th { font-weight: 500; color: var(--muted); font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.08em; }
+        tr:last-child td { border-bottom: none; }
+        .actions { display: flex; gap: 8px; }
+        .btn-action { border: none; background: var(--cream); color: var(--ink); padding: 8px 12px; border-radius: 6px; cursor: pointer; text-decoration: none; font-size: 0.82rem; }
+        .btn-delete { background: #2b2b2b; color: #fff; }
+        @media (max-width: 720px) {
+            .admin-title { font-size: 1.6rem; }
+            .admin-top { flex-direction: column; align-items: flex-start; }
+        }
+    </style>
+</head>
+<body>
+<nav>
+    <a href="/" class="nav-brand"><span></span>EduEnroll</a>
+    <div class="nav-links">
+        <a href="/courses">Courses</a>
+        <a href="/admin/courses">Admin</a>
+    </div>
+</nav>
+
+<main class="admin-shell">
+    <div class="admin-top">
+        <h1 class="admin-title">Manage Courses</h1>
+        <a class="btn-primary btn-small" href="/admin/courses/new">+ Create Course</a>
+    </div>
+
+    <p th:if="${successMessage}" th:text="${successMessage}" class="alert ok">Success</p>
+    <p th:if="${errorMessage}" th:text="${errorMessage}" class="alert err">Error</p>
+
+    <div class="table-wrap">
+        <table>
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Credits</th>
+                <th>Lecturer</th>
+                <th>Category</th>
+                <th>Action</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="course : ${courses}">
+                <td th:text="${course.id}">1</td>
+                <td th:text="${course.name}">Course Name</td>
+                <td th:text="${course.credits}">3</td>
+                <td th:text="${course.lecturer}">Dr. Name</td>
+                <td th:text="${course.category != null ? course.category.name : 'N/A'}">Category</td>
+                <td>
+                    <div class="actions">
+                        <a class="btn-action" th:href="@{/admin/courses/{id}/edit(id=${course.id})}">Edit</a>
+                        <form th:action="@{/admin/courses/{id}/delete(id=${course.id})}" method="post" onsubmit="return confirm('Delete this course?');">
+                            <button type="submit" class="btn-action btn-delete">Delete</button>
+                        </form>
+                    </div>
+                </td>
+            </tr>
+            <tr th:if="${#lists.isEmpty(courses)}">
+                <td colspan="6">No courses found.</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</main>
+</body>
+</html>
